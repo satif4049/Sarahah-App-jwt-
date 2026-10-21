@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { object } from "zod";
-import { genderEnum, roleEnum } from "../../Common/Enum/user.enum.js";
+import { genderEnum, roleEnum , providersEnum } from "../../Common/Enum/user.enum.js";
+import { type } from "node:os";
 
 
 const userSchema = new mongoose.Schema(
@@ -38,12 +39,28 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       enum: Object.values(roleEnum),
-      default:roleEnum.user
+      default: roleEnum.user,
     },
     age: {
       type: Number,
       min: [18, "Age Must Be At Last 18"],
       max: [100, "Age Must Be At Most 100"],
+    },
+    googleSub: {
+      type: String,
+      index: {
+        name: "idx_googlesub",
+        unique: true,
+      },
+    },
+    isEmailVerivcation:{
+      type:Boolean,
+      default:false
+    },
+    providers: {
+      type: String,
+      enum: Object.values[providersEnum],
+      default: providersEnum.system
     },
     profilePicture: {
       type: String,

@@ -11,6 +11,8 @@ export const getUserProfileById = async (user) => {
   console.log(user);
   
   if (user.phone) user.phone = decryption(user.phone);
+  console.log(user);
+  
   return user;
 };
 

@@ -8,3 +8,10 @@ export const roleEnum = {
  admin:"admin"
 
 };
+
+export const providersEnum={
+  google:"google",
+  system:"system"
+}
+
+export const emailOtpEXpiration = 300

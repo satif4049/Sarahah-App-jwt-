@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-import envConfig from "../Configs/env.config.js";
+import { dbConfig } from "../Configs/db.config.js";
 
 const dpConnection = async ()=>{
     try {
-        await mongoose.connect(envConfig.database.db_uri_local);
+        await mongoose.connect(dbConfig);
         console.log(process.env.DB_URI_LOCAL);
         
         console.log("DB Connection Successfuly");

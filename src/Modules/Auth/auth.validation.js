@@ -51,8 +51,40 @@ export const signupSchema = loginSchema
     },
   );
 
-export const signup= zod.object({
+export const signup = zod.object({
   body: signupSchema,
+  query: zod.strictObject({
+    lang: zod.enum(["ar", "en"]).default("en"),
+  }),
+});
+
+export const restPassord = zod
+  .strictObject({
+    email: zod.email(),
+    newPassword: zod
+      .string()
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        {
+          message:
+            "Password must contain uppercase, lowercase, number, special character, and be at least 8 characters",
+        },
+      ),
+    confirmPassword: zod.string(),
+    resetToken: zod.string(),
+  })
+  .refine(
+    (data) => {
+      return data.newPassword == data.confirmPassword;
+    },
+    {
+      message: "NewPassword and Confirm Password mismatch",
+      path: ["confirmPassword"],
+    },
+  );
+
+export const forgetPassword = zod.object({
+  body: restPassord,
   query: zod.strictObject({
     lang: zod.enum(["ar", "en"]).default("en"),
   }),

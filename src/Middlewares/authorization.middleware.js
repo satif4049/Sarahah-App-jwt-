@@ -1,20 +1,25 @@
-import UserRepository from "../DB/Repositories/user.repository.js";
-import { ApplicationException } from "../Utils/Security/ErrorException/error.exception.js";
-import envConfig from "../Configs/env.config.js";
-import { decodeToken } from "../Utils/token.utils.js";
-const userRepo = new UserRepository();
+import { UnAuthorizedException } from "../Utils/Security/ErrorException/error.exception.js";
 
-export const authenticate = async (req , res ,next)=>{
-   const { authorization } = req.headers;
-   if (!authorization) 
-            throw ApplicationException({message:"Authorization header is missing"})
-    const [prefix , token]= authorization.split(" ");
-    if (prefix !== "Bearer" || !token) 
-            throw ApplicationException({message:" Invalid Autherization header format"})
-    const decodeData = decodeToken(token, envConfig.jwt.user.access_token_secrt); 
-  const user = await userRepo.findUserProfileByIdDocument(decodeData.userId)
-   if (!user) throw NotFoundException("User  Not Found");
-    req.authUser = user
-    next()
-
+export const authorize = (allowedRole)=>{
+    return (req , res , next)=>{
+        const loginUserRole = req.authUser.role;
+        console.log({
+            loginUserRole,
+            allowedRole
+        });
+        
+        if (!allowedRole.includes(loginUserRole)) 
+            throw UnAuthorizedException("User Not Authorized To Access This Resource")
+        
+        next()
+    }
+    
 }
+
+/**
+*user login -- token
+* token - authentication middleware - user profile - user data - req-authUser[role]
+* loginUserRole = req-authUser.role
+* 
+* allowedRole = ["admin" , "user"] --- dynamic
+*/
