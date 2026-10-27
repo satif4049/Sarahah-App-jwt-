@@ -1,3 +1,5 @@
+import { application } from "express";
+
 export const genderEnum = {
   male: "male",
   female: "female",
@@ -15,3 +17,10 @@ export const providersEnum={
 }
 
 export const emailOtpEXpiration = 300
+
+export const allowedExtension = {
+  image: ["png" , "jpeg"],
+  video:["mp4"],
+  application:["xlxs" , "pdf"]
+
+}

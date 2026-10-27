@@ -12,6 +12,8 @@ authController.post(
   "/signUp",
   validationMiddleWare(validators.signup),
   async (req, res) => {
+    console.log(req.rateLimtInfo);
+    
     const {
       firstName,
       lastName,

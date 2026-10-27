@@ -49,3 +49,7 @@ export const deleteProfileById = async (userId) => {
 
   return user.deleteOne();
 };
+
+export const uploudProfilePicture = async (file , user) => {
+   return userRepo.updateDocumentById(user._id, { profilePicture : file.path} , {new : true});
+}

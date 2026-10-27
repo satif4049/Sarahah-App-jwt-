@@ -55,7 +55,6 @@
 //   });
 // };
 
-
 // ####3
 export const ApplicationException = ({
   message = "Bad Request",
@@ -101,6 +100,14 @@ export const ForbiddenException = (message = "Forbidden", issues = {}) => {
   return ApplicationException({
     message,
     status: 403,
+    issues,
+  });
+};
+
+export const TooManyRequestsException = (message = "ManyRequests", issues = {}) => {
+  return ApplicationException({
+    message,
+    status: 429,
     issues,
   });
 };
